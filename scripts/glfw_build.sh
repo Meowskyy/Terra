@@ -1,0 +1,3 @@
+"deps/glfw; ",
+                    "cmake .",
+                    "make"

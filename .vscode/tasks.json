@@ -1,0 +1,137 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile glfw",
+            "type": "shell",
+            "linux": 
+            {
+                "command": "${workspaceFolder}/scripts/glfw_build.sh"
+            },
+            "windows": 
+            {
+                "command": "cmd",
+                "args": 
+                [
+                    "cd ${workspaceFolder}\\deps\\GLFW",
+                    "mkdir glfw-build",
+                    "cmake ${workspaceFolder}\\deps\\GLFW",
+                ]
+            }
+        },
+        {
+            "label": "create folders",
+            "type": "shell",
+            "linux": 
+            {
+                "command": "mkdir",
+                "args": [
+                    "-p", 
+                    "'${workspaceFolder}/build/linux'"
+                ]
+            },
+            "windows": 
+            {
+                "command": "cmd",
+                "args": [
+                    "/C", 
+                    "if not exist .\\build\\windows mkdir .\\build\\windows"
+                ]
+            }
+        },
+        {
+            "label": "C/C++ build debug",
+            "type": "shell",
+            "command": "/usr/bin/g++",
+            "linux":
+            {
+                "args": [
+                    "-std=c++2a",   // C++ 20
+                    "-g",
+                    "-O2",          // OPTIMIZATIONS ENABLED
+                    "main.cpp",
+                    "${workspaceFolder}/Gravene/*.cpp",
+                    "${workspaceFolder}/Gravene/Physics/3D/*.cpp",
+                    "${workspaceFolder}/Gravene/Rendering/*.cpp",
+                    "${workspaceFolder}/Gravene/Rendering/Platform/OpenGL/*.cpp",
+                    "${workspaceFolder}/Gravene/Input/*.cpp",
+                    "${workspaceFolder}/Gravene/Time/*.cpp",
+    
+                    "${workspaceFolder}/Terra/*.cpp",
+    
+                    "${workspaceFolder}/deps/glad/src/glad.c", // GLAD
+
+                    /* IMGUI START */
+                    "${workspaceFolder}/deps/imgui/backends/imgui_impl_glfw.cpp",
+                    "${workspaceFolder}/deps/imgui/backends/imgui_impl_opengl3.cpp",
+                    "${workspaceFolder}/deps/imgui/*.cpp", 
+                    /* IMGUI END */
+    
+                    "-o",                                               // OUTPUT
+                    "${workspaceFolder}/build/linux/build.out",         // OUTPUT DIRECTORY
+    
+                    "-I${workspaceFolder}/Gravene/",
+    
+                    "-I${workspaceFolder}/deps/glad/include/",
+                    "-I${workspaceFolder}/deps/glfw/include/",
+                    "-I${workspaceFolder}/deps/glm/",
+
+                    "-I${workspaceFolder}/deps/imgui/backends",
+                    "-I${workspaceFolder}/deps/imgui/",
+    
+                    "-L${workspaceFolder}/deps/glfw/src",
+    
+                    "-ldl",
+                    "-lGL",
+                    "-lglfw"
+                ],
+            },
+            "windows":
+            {
+                "command": "g++",
+                "args": [
+                    "-std=c++2a",   // C++ 20
+                    "-g",
+                    "-O2",          // OPTIMIZATIONS ENABLED
+                    "main.cpp",
+                    "${workspaceFolder}/Gravene/*.cpp",
+                    "${workspaceFolder}/Gravene/Physics/3D/*.cpp",
+                    "${workspaceFolder}/Gravene/Rendering/*.cpp",
+                    "${workspaceFolder}/Gravene/Rendering/Platform/OpenGL/*.cpp",
+                    "${workspaceFolder}/Gravene/Input/*.cpp",
+                    "${workspaceFolder}/Gravene/Time/*.cpp",
+    
+                    "${workspaceFolder}/Terra/*.cpp",
+    
+                    "${workspaceFolder}/deps/glad/src/glad.c",
+
+                    "${workspaceFolder}/deps/imgui/backends/imgui_impl_glfw.cpp",     // IMGUI
+                    "${workspaceFolder}/deps/imgui/backends/imgui_impl_opengl3.cpp",
+                    "${workspaceFolder}/deps/imgui/*.cpp",              // IMGUI
+    
+                    "-o",                                               // OUTPUT
+                    "${workspaceFolder}/build/windows/build.exe",       // OUTPUT DIRECTORY
+    
+                    "-I${workspaceFolder}/Gravene/",
+    
+                    "-I${workspaceFolder}/deps/glad/include",
+                    "-I${workspaceFolder}/deps/glfw/include/",
+                    "-I${workspaceFolder}/deps/glm/",
+
+                    "-I${workspaceFolder}/deps/imgui/backends",
+                    "-I${workspaceFolder}/deps/imgui/",
+    
+                    "-L${workspaceFolder}/deps/glfw-lib/",
+    
+                    "-lopengl32",
+                    "-lglfw3dll",
+                ],
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["create folders"]
+        }
+    ]
+}
