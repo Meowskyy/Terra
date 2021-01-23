@@ -1,0 +1,10 @@
+[submodule "deps/imgui"]
+	path = deps/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "deps/glm"]
+	path = deps/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "deps/GLFW"]
+	path = deps/GLFW
+	url = https://github.com/glfw/glfw.git
